@@ -78,6 +78,7 @@ class ShopUrlsTestCase(TestCase):
         )
 
     def test_anonymous_user_get_urls(self):
+        """Проверка доступа неавторизованного пользователя."""
         urls_get_statuses = {
             '/api/v1/categories/': HTTPStatus.OK,
             '/api/v1/subcategories/': HTTPStatus.OK,
@@ -89,6 +90,10 @@ class ShopUrlsTestCase(TestCase):
             with self.subTest(url=url, status=status_code):
                 response = self.anon_client.get(url)
                 self.assertEqual(response.status_code, status_code)
+
+    def test_authorized_user_post_cart_data(self):
+        """Проверка доступа авторизованного пользователя
+        к возможностям корзины."""
         post_url = '/api/v1/products/1/cart/'
         post_data = {
             'quantity': 10

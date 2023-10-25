@@ -47,6 +47,9 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ProductListSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор вывода продукта в корзине.
+    """
 
     class Meta:
         model = Product
@@ -54,6 +57,9 @@ class ProductListSerializer(serializers.ModelSerializer):
 
 
 class ProductCartSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор вывода количества продукта в корзине.
+    """
     quantity = serializers.IntegerField()
     product = ProductListSerializer()
 
@@ -71,6 +77,10 @@ class CartSerializer(serializers.ModelSerializer):
         fields = ('products', 'full_price')
 
     def get_full_price(self, value):
+        """
+        Возвращает цену всей корзины по формуле
+        (товар * количество) + (товар * количество)...
+        """
         products = ProductCart.objects.filter(cart=value)
         products_list = []
         for product_cart_obj in products:

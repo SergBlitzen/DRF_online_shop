@@ -107,10 +107,14 @@ docker compose exec web python manage.py migrate
 docker compose exec web python manage.py collectstatic
 docker compose exec web cp -r /app/collected_static/. /backend_static/static/
 ```
-- создать суперпользователя:
+- создать суперпользователя для доступа в админку:
 ```bash
 docker compose exec web python manage.py createsuperuser
 ```
+
+## first_task.py
+
+Отдельная программа для служебного назначения.
 
 ## Credits
 Автор проекта: Serg Blitzen

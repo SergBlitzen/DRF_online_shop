@@ -31,7 +31,7 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         """
         Кастомный action для управления корзиной с методами POST, PATCH
         и DELETE. При нескольких POST-запросах на одинаковый продукт
-        складывает количества.
+        складывает количества существующего и введённого.
         """
 
         quantity = request.data.get('quantity')

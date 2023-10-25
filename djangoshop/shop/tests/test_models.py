@@ -45,11 +45,13 @@ class CategoryTestCase(TestCase):
         )
 
     def test_category_object_exists(self):
+        """Проверка доступа к объекту модели."""
         categories_count = Category.objects.count()
         expected_count = 1
         self.assertEqual(categories_count, expected_count)
 
     def test_category_object_have_correct_data(self):
+        """Проверка корректного вывода данных модели."""
         category = Category.objects.all()[0]
         expected_data = {
             'name': 'test_category_1',
@@ -63,6 +65,8 @@ class CategoryTestCase(TestCase):
                 )
 
     def test_cannot_duplicate_slug(self):
+        """Проверка невозможности создать категорию
+        с существующим слагом."""
         with transaction.atomic():
             try:
                 Category.objects.create(
@@ -76,6 +80,7 @@ class CategoryTestCase(TestCase):
         self.assertEqual(categories_count, expected_count)
 
     def test_access_subcategory(self):
+        """Проверка доступа к подкатегории через категорию."""
         cls_subcategory = CategoryTestCase.subcat_1
         model_subcategory = CategoryTestCase.cat_1.subcategories.all()[0]
         self.assertEqual(cls_subcategory, model_subcategory)
@@ -116,11 +121,13 @@ class SubCategoryTestCase(TestCase):
         )
 
     def test_subcategory_object_exists(self):
+        """Проверка доступа к объекту модели."""
         subcategories_count = SubCategory.objects.count()
         expected_count = 1
         self.assertEqual(subcategories_count, expected_count)
 
     def test_subcategory_object_have_correct_data(self):
+        """Проверка корректного вывода данных модели."""
         subcategory = SubCategory.objects.all()[0]
         expected_data = {
             'name': 'test_subcategory_1',
@@ -135,6 +142,8 @@ class SubCategoryTestCase(TestCase):
                 )
 
     def test_cannot_duplicate_slug(self):
+        """Проверка невозможности создать подкатегорию
+        с существующим слагом."""
         with transaction.atomic():
             try:
                 SubCategory.objects.create(
@@ -149,6 +158,7 @@ class SubCategoryTestCase(TestCase):
         self.assertEqual(categories_count, expected_count)
 
     def test_access_subcategory(self):
+        """Проверка доступа к категории через подкатегорию."""
         cls_category = CategoryTestCase.cat_1
         model_category = Category.objects.get(
             subcategories__name='test_subcategory_1'
@@ -222,11 +232,13 @@ class ProductTestCase(TestCase):
         )
 
     def test_products_exist(self):
+        """Проверка доступа к объекту модели."""
         products = Product.objects.count()
         expected_count = 3
         self.assertEqual(products, expected_count)
 
     def test_product_have_correct_data(self):
+        """Проверка корректного вывода данных объекта."""
         product = Product.objects.all()[0]
         expected_data = {
             'name': 'test_product_1',
@@ -241,6 +253,8 @@ class ProductTestCase(TestCase):
                 )
 
     def test_cannot_duplicate_product_slug(self):
+        """Проверка невозможности создать объект
+        с уже существующим слагом."""
         with transaction.atomic():
             try:
                 Product.objects.create(
@@ -255,6 +269,8 @@ class ProductTestCase(TestCase):
         self.assertEqual(products_count, expected_count)
 
     def test_cannot_add_product_without_categories(self):
+        """Проверка невозможности создать объект продукта
+        без указания категории или подкатегории."""
         with transaction.atomic():
             try:
                 Product.objects.create(
@@ -268,6 +284,7 @@ class ProductTestCase(TestCase):
         self.assertEqual(products_count, expected_count)
 
     def test_add_another_product(self):
+        """Проверка корректного создания нового объекта."""
         new_product = Product.objects.create(
             name='test_product_4',
             slug='testprod4',
@@ -286,6 +303,7 @@ class ProductTestCase(TestCase):
         self.assertEqual(product_images_count, expected_count)
 
     def test_access_product_images(self):
+        """Проверка доступа к изображениям продукта."""
         product = Product.objects.all()[0]
         product_image = product.images.all()[0]
         image = ProductImage.objects.all()[0]
@@ -350,21 +368,25 @@ class CartTestCase(TestCase):
         )
 
     def test_cart_object_exists(self):
+        """Проверка доступа к объекту модели."""
         carts_count = Cart.objects.count()
         expected_count = 1
         self.assertEqual(carts_count, expected_count)
 
     def test_cart_object_have_correct_data(self):
+        """Проверка корректного вывода данных объекта."""
         cart_user = CartTestCase.cart.user
         expected_data = User.objects.all()[0]
         self.assertEqual(cart_user, expected_data)
 
     def test_product_cart_object_exists(self):
+        """Проверка доступа к объекту модели."""
         product_cart_count = Cart.objects.count()
         expected_count = 1
         self.assertEqual(product_cart_count, expected_count)
 
     def test_product_cart_object_have_correct_data(self):
+        """Проверка корректного вывода данных объекта."""
         product_cart = CartTestCase.product_1_cart
         cart = Cart.objects.all()[0]
         product = Product.objects.all()[0]
@@ -381,6 +403,8 @@ class CartTestCase(TestCase):
                 )
 
     def test_cannot_add_duplicate_product_carts(self):
+        """Проверка невозможности создать несколько
+        объектов с одинаковым продуктом."""
         with transaction.atomic():
             try:
                 ProductCart.objects.create(

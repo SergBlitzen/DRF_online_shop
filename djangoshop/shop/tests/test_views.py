@@ -61,16 +61,19 @@ class CategoryViewsTest(TestCase):
         )
 
     def test_allow_anonymous_access(self):
+        """Проверка возможности неавторизованного доступа."""
         address = '/api/v1/categories/'
         response = self.anon_client.get(address)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_allow_authorized_access(self):
+        """Проверка возможности авторизованного доступа."""
         address = '/api/v1/categories/'
         response = self.authorized_client.get(address)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_category_in_response(self):
+        """Проверка корректного вывода объекта в ответе запроса."""
         address = '/api/v1/categories/'
         response = self.authorized_client.get(address)
         category_data = response.data.get('results')[0]
@@ -129,16 +132,19 @@ class SubCategoryTestCase(TestCase):
         )
 
     def test_allow_anonymous_access(self):
+        """Проверка возможности неавторизованного доступа."""
         address = '/api/v1/subcategories/'
         response = self.anon_client.get(address)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_allow_authorized_access(self):
+        """Проверка возможности авторизованного доступа."""
         address = '/api/v1/subcategories/'
         response = self.authorized_client.get(address)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_subcategory_in_response(self):
+        """Проверка корректного вывода объекта в ответе запроса."""
         address = '/api/v1/subcategories/'
         response = self.authorized_client.get(address)
         subcategory_data = response.data.get('results')[0]
@@ -210,16 +216,19 @@ class ProductsViewsTestCase(TestCase):
         )
 
     def test_allow_anonymous_access(self):
+        """Проверка возможности неавторизованного доступа."""
         address = '/api/v1/products/'
         response = self.anon_client.get(address)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_allow_authorized_access(self):
+        """Проверка возможности авторизованного доступа."""
         address = '/api/v1/products/'
         response = self.authorized_client.get(address)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_product_in_response(self):
+        """Проверка корректного вывода объекта в ответе запроса."""
         address = '/api/v1/products/'
         response = self.authorized_client.get(address)
         product_obj = response.data.get('results')[0]
@@ -227,6 +236,7 @@ class ProductsViewsTestCase(TestCase):
         self.assertEqual(product_obj['name'], expected_product.name)
 
     def test_add_product_to_cart(self):
+        """Проверка возможности добавлять продукт в корзину."""
         address = '/api/v1/products/1/cart/'
         data = {
             'quantity': 10
@@ -257,6 +267,7 @@ class ProductsViewsTestCase(TestCase):
         self.assertEqual(product_cart_count, expected_count)
 
     def test_update_product_cart_quantity(self):
+        """Проверка возможности изменить количество продуктов в корзине."""
         address = '/api/v1/products/1/cart/'
         data = {
             'quantity': 10
@@ -271,6 +282,7 @@ class ProductsViewsTestCase(TestCase):
         self.assertEqual(response_quantity, expected_quantity)
 
     def test_delete_product_from_cart(self):
+        """Проверка возможности удалить продукт из корзины."""
         address = '/api/v1/products/1/cart/'
         data = {
             'quantity': 10
@@ -351,16 +363,19 @@ class CartViewsTestCase(TestCase):
         )
 
     def test_deny_anonymous_access(self):
+        """Проверка невозможности неавторизованного доступа."""
         address = '/api/v1/cart/'
         response = self.anon_client.get(address)
         self.assertEqual(response.status_code, HTTPStatus.UNAUTHORIZED)
 
     def test_allow_authorized_access(self):
+        """Проверка возможности авторизованного доступа."""
         address = '/api/v1/cart/'
         response = self.authorized_client.get(address)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_response_have_correct_data(self):
+        """Проверка корректного вывода объекта в ответе запроса."""
         address = '/api/v1/cart/'
         response = self.authorized_client.get(address)
         response_data = loads(dumps(response.data))
@@ -380,6 +395,7 @@ class CartViewsTestCase(TestCase):
         self.assertEqual(response_data, expected_data)
 
     def test_flush_cart(self):
+        """Проверка возможности полностью очистить корзину."""
         address = '/api/v1/cart/'
         response = self.authorized_client.delete(address)
         response_data = response.data
